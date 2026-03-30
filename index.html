@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -11,309 +10,65 @@
 <title>Life Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #1a1714;
-    color: #e8dfd3;
-    min-height: 100vh;
-    min-height: 100dvh;
-    max-width: 480px;
-    margin: 0 auto;
-    overflow-x: hidden;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  button { font-family: inherit; }
-  input, textarea { font-family: inherit; }
-
-.header {
-padding: 48px 24px 16px;
-padding-top: max(48px, calc(env(safe-area-inset-top) + 16px));
-background: linear-gradient(180deg, #2a2318 0%, #1a1714 100%);
-}
-.header h1 {
-font-family: ‘Playfair Display’, serif;
-font-size: 28px;
-color: #f4a261;
-margin-bottom: 4px;
-}
-.header .date {
-color: #8a7e72;
-font-size: 14px;
-margin-bottom: 16px;
-}
-
-.summary-card {
-display: flex;
-align-items: center;
-gap: 20px;
-background: linear-gradient(135deg, #2a2318, #1f1c15);
-border-radius: 14px;
-padding: 20px;
-border: 1px solid #3a3228;
-}
-.ring-container {
-position: relative;
-width: 72px;
-height: 72px;
-flex-shrink: 0;
-}
-.ring-text {
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-50%, -50%);
-font-size: 20px;
-font-weight: 700;
-color: #f4a261;
-}
-.motivational {
-font-size: 14px;
-color: #a89e92;
-font-style: italic;
-line-height: 1.5;
-}
-
-.tabs {
-display: flex;
-padding: 0 24px;
-border-bottom: 1px solid #2a2318;
-gap: 4px;
-position: sticky;
-top: 0;
-background: #1a1714;
-z-index: 10;
-}
-.tab-btn {
-flex: 1;
-padding: 12px 0;
-font-size: 12px;
-font-weight: 400;
-color: #8a7e72;
-background: none;
-border: none;
-border-bottom: 2px solid transparent;
-cursor: pointer;
-letter-spacing: 0.5px;
-text-transform: uppercase;
-transition: all 0.2s;
-}
-.tab-btn.active {
-font-weight: 700;
-color: #f4a261;
-border-bottom-color: #f4a261;
-}
-
-.content { padding: 20px 24px 120px; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-.card {
-background: #252118;
-border-radius: 14px;
-padding: 20px;
-margin-bottom: 16px;
-border: 1px solid #3a3228;
-}
-.card-label {
-font-size: 13px;
-color: #8a7e72;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-margin-bottom: 10px;
-}
-
-.check-row {
-display: flex;
-align-items: center;
-gap: 12px;
-padding: 14px 16px;
-background: rgba(255,255,255,0.02);
-border: 1px solid #3a3228;
-border-radius: 12px;
-cursor: pointer;
-width: 100%;
-text-align: left;
-margin-bottom: 8px;
-transition: all 0.2s;
-font-size: 15px;
-color: #a89e92;
-}
-.check-row.checked {
-background: rgba(244, 162, 97, 0.08);
-border-color: rgba(244, 162, 97, 0.25);
-color: #e8dfd3;
-}
-.check-circle {
-width: 28px; height: 28px;
-border-radius: 50%;
-border: 2px solid #5a5045;
-display: flex; align-items: center; justify-content: center;
-font-size: 14px; flex-shrink: 0;
-transition: all 0.2s;
-color: transparent;
-}
-.check-row.checked .check-circle {
-border: none;
-background: #f4a261;
-color: #1a1714;
-}
-.check-label { flex: 1; }
-.streak-badge {
-font-size: 12px;
-color: #f4a261;
-background: rgba(244,162,97,0.12);
-padding: 3px 10px;
-border-radius: 20px;
-font-weight: 600;
-}
-
-.diary-input, .reflection-input {
-width: 100%;
-padding: 12px 16px;
-background: #1a1714;
-border: 1px solid #3a3228;
-border-radius: 10px;
-color: #e8dfd3;
-font-size: 14px;
-outline: none;
-}
-.diary-input:focus, .reflection-input:focus {
-border-color: #f4a261;
-}
-.reflection-input { resize: vertical; }
-
-.btn-primary {
-padding: 12px 20px;
-background: #f4a261;
-color: #1a1714;
-border: none;
-border-radius: 10px;
-font-weight: 700;
-cursor: pointer;
-font-size: 14px;
-}
-.btn-primary:active { opacity: 0.8; }
-
-.btn-outline {
-padding: 12px 20px;
-background: rgba(244,162,97,0.1);
-border: 1px solid rgba(244,162,97,0.3);
-border-radius: 10px;
-color: #f4a261;
-cursor: pointer;
-font-size: 14px;
-width: 100%;
-font-weight: 600;
-}
-
-.workout-counter {
-display: flex;
-align-items: center;
-gap: 16px;
-justify-content: center;
-}
-.workout-btn {
-width: 48px; height: 48px;
-border-radius: 50%;
-border: 1px solid #3a3228;
-background: #1a1714;
-color: #e8dfd3;
-font-size: 22px;
-cursor: pointer;
-display: flex; align-items: center; justify-content: center;
-}
-.workout-btn:active { background: #2a2318; }
-.workout-num {
-font-size: 40px;
-font-weight: 700;
-color: #f4a261;
-min-width: 55px;
-text-align: center;
-}
-
-.skill-option {
-display: block;
-width: 100%;
-padding: 12px 16px;
-margin-bottom: 8px;
-background: rgba(255,255,255,0.03);
-border: 1px solid #3a3228;
-border-radius: 10px;
-color: #e8dfd3;
-cursor: pointer;
-text-align: left;
-font-size: 14px;
-transition: all 0.15s;
-}
-.skill-option:active { background: rgba(244,162,97,0.1); }
-.skill-category {
-color: #f4a261;
-font-size: 11px;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
-
-.journal-entry { padding: 16px 20px; }
-.journal-date { font-size: 12px; color: #8a7e72; margin-bottom: 6px; }
-.journal-text { font-size: 14px; line-height: 1.5; }
-.journal-reflection { border-left: 3px solid #f4a261; }
-.journal-reflection .journal-date { color: #f4a261; }
-
-.phase-card { border-left: 3px solid; }
-.phase-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
-.phase-item {
-display: flex;
-gap: 10px;
-margin-bottom: 10px;
-align-items: flex-start;
-}
-.phase-dot { font-size: 8px; margin-top: 6px; flex-shrink: 0; }
-.phase-text { font-size: 13px; color: #c4b8a8; line-height: 1.5; }
-
-.skill-tags {
-display: flex;
-flex-wrap: wrap;
-gap: 6px;
-}
-.skill-tag {
-padding: 6px 12px;
-background: rgba(244,162,97,0.1);
-border: 1px solid rgba(244,162,97,0.2);
-border-radius: 20px;
-font-size: 12px;
-color: #f4a261;
-}
-
-.diary-row { display: flex; gap: 8px; }
-.diary-row input { flex: 1; }
-
-.empty-state {
-text-align: center;
-padding: 40px 20px;
-color: #8a7e72;
-font-size: 15px;
-}
-
-.install-banner {
-position: fixed;
-bottom: 0;
-left: 50%;
-transform: translateX(-50%);
-width: 100%;
-max-width: 480px;
-background: #2a2318;
-border-top: 1px solid #3a3228;
-padding: 16px 24px;
-padding-bottom: max(16px, env(safe-area-inset-bottom));
-z-index: 100;
-display: none;
-}
-.install-banner.show { display: flex; gap: 12px; align-items: center; }
-.install-banner p { flex: 1; font-size: 13px; color: #a89e92; }
-.install-banner .btn-primary { white-space: nowrap; }
-.install-banner .dismiss { background: none; border: none; color: #8a7e72; font-size: 20px; cursor: pointer; padding: 4px; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:#1a1714;color:#e8dfd3;min-height:100vh;min-height:100dvh;max-width:480px;margin:0 auto;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom)}
+button{font-family:inherit}
+input,textarea{font-family:inherit}
+.header{padding:48px 24px 16px;padding-top:max(48px,calc(env(safe-area-inset-top) + 16px));background:linear-gradient(180deg,#2a2318 0%,#1a1714 100%)}
+.header h1{font-family:'Playfair Display',serif;font-size:28px;color:#f4a261;margin-bottom:4px}
+.header .date{color:#8a7e72;font-size:14px;margin-bottom:16px}
+.summary-card{display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,#2a2318,#1f1c15);border-radius:14px;padding:20px;border:1px solid #3a3228}
+.ring-container{position:relative;width:72px;height:72px;flex-shrink:0}
+.ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;font-weight:700;color:#f4a261}
+.motivational{font-size:14px;color:#a89e92;font-style:italic;line-height:1.5}
+.tabs{display:flex;padding:0 24px;border-bottom:1px solid #2a2318;gap:4px;position:sticky;top:0;background:#1a1714;z-index:10}
+.tab-btn{flex:1;padding:12px 0;font-size:12px;font-weight:400;color:#8a7e72;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:all .2s}
+.tab-btn.active{font-weight:700;color:#f4a261;border-bottom-color:#f4a261}
+.content{padding:20px 24px 120px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:#252118;border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid #3a3228}
+.card-label{font-size:13px;color:#8a7e72;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.check-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid #3a3228;border-radius:12px;cursor:pointer;width:100%;text-align:left;margin-bottom:8px;transition:all .2s;font-size:15px;color:#a89e92}
+.check-row.checked{background:rgba(244,162,97,.08);border-color:rgba(244,162,97,.25);color:#e8dfd3}
+.check-circle{width:28px;height:28px;border-radius:50%;border:2px solid #5a5045;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s;color:transparent}
+.check-row.checked .check-circle{border:none;background:#f4a261;color:#1a1714}
+.check-label{flex:1}
+.streak-badge{font-size:12px;color:#f4a261;background:rgba(244,162,97,.12);padding:3px 10px;border-radius:20px;font-weight:600}
+.diary-input,.reflection-input{width:100%;padding:12px 16px;background:#1a1714;border:1px solid #3a3228;border-radius:10px;color:#e8dfd3;font-size:14px;outline:none}
+.diary-input:focus,.reflection-input:focus{border-color:#f4a261}
+.reflection-input{resize:vertical}
+.btn-primary{padding:12px 20px;background:#f4a261;color:#1a1714;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px}
+.btn-primary:active{opacity:.8}
+.btn-outline{padding:12px 20px;background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.3);border-radius:10px;color:#f4a261;cursor:pointer;font-size:14px;width:100%;font-weight:600}
+.workout-counter{display:flex;align-items:center;gap:16px;justify-content:center}
+.workout-btn{width:48px;height:48px;border-radius:50%;border:1px solid #3a3228;background:#1a1714;color:#e8dfd3;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.workout-btn:active{background:#2a2318}
+.workout-num{font-size:40px;font-weight:700;color:#f4a261;min-width:55px;text-align:center}
+.skill-option{display:block;width:100%;padding:12px 16px;margin-bottom:8px;background:rgba(255,255,255,.03);border:1px solid #3a3228;border-radius:10px;color:#e8dfd3;cursor:pointer;text-align:left;font-size:14px;transition:all .15s}
+.skill-option:active{background:rgba(244,162,97,.1)}
+.skill-category{color:#f4a261;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.journal-entry{padding:16px 20px}
+.journal-date{font-size:12px;color:#8a7e72;margin-bottom:6px}
+.journal-text{font-size:14px;line-height:1.5}
+.journal-reflection{border-left:3px solid #f4a261}
+.journal-reflection .journal-date{color:#f4a261}
+.phase-card{border-left:3px solid}
+.phase-title{font-size:14px;font-weight:700;margin-bottom:12px}
+.phase-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.phase-dot{font-size:8px;margin-top:6px;flex-shrink:0}
+.phase-text{font-size:13px;color:#c4b8a8;line-height:1.5}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px}
+.skill-tag{padding:6px 12px;background:rgba(244,162,97,.1);border:1px solid rgba(244,162,97,.2);border-radius:20px;font-size:12px;color:#f4a261}
+.diary-row{display:flex;gap:8px}
+.diary-row input{flex:1}
+.empty-state{text-align:center;padding:40px 20px;color:#8a7e72;font-size:15px}
+.install-banner{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#2a2318;border-top:1px solid #3a3228;padding:16px 24px;padding-bottom:max(16px,env(safe-area-inset-bottom));z-index:100;display:none}
+.install-banner.show{display:flex;gap:12px;align-items:center}
+.install-banner p{flex:1;font-size:13px;color:#a89e92}
+.install-banner .btn-primary{white-space:nowrap}
+.install-banner .dismiss{background:none;border:none;color:#8a7e72;font-size:20px;cursor:pointer;padding:4px}
 </style>
-
 </head>
 <body>
 
@@ -324,9 +79,7 @@ display: none;
     <div class="ring-container">
       <svg width="72" height="72" viewBox="0 0 72 72">
         <circle cx="36" cy="36" r="30" fill="none" stroke="#3a3228" stroke-width="6"/>
-        <circle id="progressRing" cx="36" cy="36" r="30" fill="none" stroke="#f4a261" stroke-width="6"
-          stroke-dasharray="0 188.5" stroke-linecap="round" transform="rotate(-90 36 36)"
-          style="transition: stroke-dasharray 0.5s ease"/>
+        <circle id="progressRing" cx="36" cy="36" r="30" fill="none" stroke="#f4a261" stroke-width="6" stroke-dasharray="0 188.5" stroke-linecap="round" transform="rotate(-90 36 36)" style="transition:stroke-dasharray .5s ease"/>
       </svg>
       <span class="ring-text" id="ringText">0/8</span>
     </div>
@@ -344,13 +97,10 @@ display: none;
 </div>
 
 <div class="content">
-  <!-- TODAY TAB -->
   <div class="tab-content active" id="tab-today">
     <div id="dailyHabits"></div>
     <div id="diarySection"></div>
   </div>
-
-  <!-- WEEKLY TAB -->
 
   <div class="tab-content" id="tab-weekly">
     <div id="workoutSection"></div>
@@ -359,64 +109,53 @@ display: none;
     <div id="reflectionSection"></div>
   </div>
 
-  <!-- JOURNAL TAB -->
-
   <div class="tab-content" id="tab-journal">
     <p class="card-label">Recent entries</p>
     <div id="journalEntries"></div>
   </div>
 
-  <!-- TRANSFER TAB -->
-
   <div class="tab-content" id="tab-transfer">
-    <div class="card" style="background: linear-gradient(135deg, #2a2318, #1f1c15); border-color: rgba(244,162,97,0.2);">
-      <h3 style="font-family: 'Playfair Display', serif; color: #f4a261; font-size: 18px; margin-bottom: 12px;">🇺🇸 Path to Nutley, NJ</h3>
-      <p style="color: #a89e92; font-size: 13px; line-height: 1.6;">Your roadmap to an intra-company transfer at Reckitt.</p>
+    <div class="card" style="background:linear-gradient(135deg,#2a2318,#1f1c15);border-color:rgba(244,162,97,.2)">
+      <h3 style="font-family:'Playfair Display',serif;color:#f4a261;font-size:18px;margin-bottom:12px">&#x1f1fa;&#x1f1f8; Path to Nutley, NJ</h3>
+      <p style="color:#a89e92;font-size:13px;line-height:1.6">Your roadmap to an intra-company transfer at Reckitt.</p>
     </div>
-
-```
-<div class="card phase-card" style="border-left-color: #f4a261;">
-  <p class="phase-title" style="color: #f4a261;">Phase 1: Build the case (Now)</p>
-  <div class="phase-item"><span class="phase-dot" style="color:#f4a261">●</span><span class="phase-text">Tell your manager you want international growth</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#f4a261">●</span><span class="phase-text">Volunteer for US-facing procurement projects</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#f4a261">●</span><span class="phase-text">Document AI Foundry impact with real metrics (savings, time, adoption)</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#f4a261">●</span><span class="phase-text">Build relationships with US procurement leads (virtual coffees)</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#f4a261">●</span><span class="phase-text">Research L-1B visa requirements (specialized knowledge)</span></div>
-</div>
-
-<div class="card phase-card" style="border-left-color: #4ecdc4;">
-  <p class="phase-title" style="color: #4ecdc4;">Phase 2: Prove readiness (3–6 months)</p>
-  <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">●</span><span class="phase-text">Lead a cross-regional project with US team</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">●</span><span class="phase-text">Get promoted beyond trainee level</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">●</span><span class="phase-text">Build a portfolio of your AI-driven procurement wins</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">●</span><span class="phase-text">Ask HR about international mobility programs</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">●</span><span class="phase-text">Get a sponsor/mentor on the US side</span></div>
-</div>
-
-<div class="card phase-card" style="border-left-color: #e76f51;">
-  <p class="phase-title" style="color: #e76f51;">Phase 3: Make the ask (6–12 months)</p>
-  <div class="phase-item"><span class="phase-dot" style="color:#e76f51">●</span><span class="phase-text">Formal transfer request with business justification</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#e76f51">●</span><span class="phase-text">Propose specific role/projects for Nutley</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#e76f51">●</span><span class="phase-text">Show how your AI expertise fills a US team gap</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#e76f51">●</span><span class="phase-text">Negotiate visa sponsorship as part of transfer</span></div>
-  <div class="phase-item"><span class="phase-dot" style="color:#e76f51">●</span><span class="phase-text">Align timing with your trainee program completion</span></div>
-</div>
-
-<div class="card">
-  <p style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Skills that make you transferable</p>
-  <div class="skill-tags">
-    <span class="skill-tag">AI/Copilot Studio</span>
-    <span class="skill-tag">Should-cost modeling</span>
-    <span class="skill-tag">Supplier analytics</span>
-    <span class="skill-tag">Python/Low-code</span>
-    <span class="skill-tag">Cross-cultural fluency</span>
-    <span class="skill-tag">Procurement negotiation</span>
-    <span class="skill-tag">Stakeholder management</span>
-    <span class="skill-tag">Data-driven decisions</span>
-  </div>
-</div>
-```
-
+    <div class="card phase-card" style="border-left-color:#f4a261">
+      <p class="phase-title" style="color:#f4a261">Phase 1: Build the case (Now)</p>
+      <div class="phase-item"><span class="phase-dot" style="color:#f4a261">&#9679;</span><span class="phase-text">Tell your manager you want international growth</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#f4a261">&#9679;</span><span class="phase-text">Volunteer for US-facing procurement projects</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#f4a261">&#9679;</span><span class="phase-text">Document AI Foundry impact with real metrics (savings, time, adoption)</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#f4a261">&#9679;</span><span class="phase-text">Build relationships with US procurement leads (virtual coffees)</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#f4a261">&#9679;</span><span class="phase-text">Research L-1B visa requirements (specialized knowledge)</span></div>
+    </div>
+    <div class="card phase-card" style="border-left-color:#4ecdc4">
+      <p class="phase-title" style="color:#4ecdc4">Phase 2: Prove readiness (3-6 months)</p>
+      <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">&#9679;</span><span class="phase-text">Lead a cross-regional project with US team</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">&#9679;</span><span class="phase-text">Get promoted beyond trainee level</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">&#9679;</span><span class="phase-text">Build a portfolio of your AI-driven procurement wins</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">&#9679;</span><span class="phase-text">Ask HR about international mobility programs</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#4ecdc4">&#9679;</span><span class="phase-text">Get a sponsor/mentor on the US side</span></div>
+    </div>
+    <div class="card phase-card" style="border-left-color:#e76f51">
+      <p class="phase-title" style="color:#e76f51">Phase 3: Make the ask (6-12 months)</p>
+      <div class="phase-item"><span class="phase-dot" style="color:#e76f51">&#9679;</span><span class="phase-text">Formal transfer request with business justification</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#e76f51">&#9679;</span><span class="phase-text">Propose specific role/projects for Nutley</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#e76f51">&#9679;</span><span class="phase-text">Show how your AI expertise fills a US team gap</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#e76f51">&#9679;</span><span class="phase-text">Negotiate visa sponsorship as part of transfer</span></div>
+      <div class="phase-item"><span class="phase-dot" style="color:#e76f51">&#9679;</span><span class="phase-text">Align timing with your trainee program completion</span></div>
+    </div>
+    <div class="card">
+      <p style="font-size:14px;font-weight:700;margin-bottom:8px">Skills that make you transferable</p>
+      <div class="skill-tags">
+        <span class="skill-tag">AI/Copilot Studio</span>
+        <span class="skill-tag">Should-cost modeling</span>
+        <span class="skill-tag">Supplier analytics</span>
+        <span class="skill-tag">Python/Low-code</span>
+        <span class="skill-tag">Cross-cultural fluency</span>
+        <span class="skill-tag">Procurement negotiation</span>
+        <span class="skill-tag">Stakeholder management</span>
+        <span class="skill-tag">Data-driven decisions</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -427,333 +166,298 @@ display: none;
 </div>
 
 <script>
-const HABITS = [
-  { id: "sleep", label: "Bed by 12–1 AM", icon: "🌙" },
-  { id: "morning", label: "Wake 8–9 AM, no phone", icon: "☀️" },
-  { id: "fruit", label: "Eat a fruit or veggie", icon: "🍎" },
-  { id: "wholefood", label: "Whole foods, no fast food", icon: "🥗" },
-  { id: "nosoda", label: "No sugary sodas", icon: "💧" },
-  { id: "nosmoking", label: "No smoking", icon: "🚭" },
-  { id: "stretch", label: "Stretch daily", icon: "🧘" },
-  { id: "diary", label: "Write 1 sentence in diary", icon: "📝" },
+(function(){
+"use strict";
+
+var HABITS = [
+  {id:"sleep",label:"Bed by 12\u20131 AM",icon:"\ud83c\udf19"},
+  {id:"morning",label:"Wake 8\u20139 AM, no phone",icon:"\u2600\ufe0f"},
+  {id:"fruit",label:"Eat a fruit or veggie",icon:"\ud83c\udf4e"},
+  {id:"wholefood",label:"Whole foods, no fast food",icon:"\ud83e\udd57"},
+  {id:"nosoda",label:"No sugary sodas",icon:"\ud83d\udca7"},
+  {id:"nosmoking",label:"No smoking",icon:"\ud83d\udead"},
+  {id:"stretch",label:"Stretch daily",icon:"\ud83e\uddd8"},
+  {id:"diary",label:"Write 1 sentence in diary",icon:"\ud83d\udcdd"}
 ];
 
-const SKILL_IDEAS = [
-  { skill: "Cook a Dutch recipe from scratch", category: "Life" },
-  { skill: "Learn 10 Dutch phrases", category: "Language" },
-  { skill: "Set up a basic budget spreadsheet", category: "Finance" },
-  { skill: "Try a 10-min guided meditation", category: "Wellness" },
-  { skill: "Write a Python function from memory", category: "Tech" },
-  { skill: "Do a 20-min bodyweight HIIT routine", category: "Fitness" },
-  { skill: "Learn basic photo editing", category: "Creative" },
-  { skill: "Practice touch typing for 15 min", category: "Productivity" },
-  { skill: "Read 1 chapter of a non-fiction book", category: "Learning" },
-  { skill: "Learn to make a proper espresso", category: "Life" },
-  { skill: "Build a simple HTML page", category: "Tech" },
-  { skill: "Try indoor bouldering", category: "Fitness" },
-  { skill: "Learn 5 Excel shortcuts", category: "Productivity" },
-  { skill: "Draw something for 15 minutes", category: "Creative" },
-  { skill: "Research one US visa/transfer topic", category: "Career" },
-  { skill: "Cook a Hungarian dish from memory", category: "Life" },
-  { skill: "Learn basic SQL queries", category: "Tech" },
-  { skill: "Try a new Amsterdam neighborhood walk", category: "Wellness" },
-  { skill: "Practice public speaking (record yourself)", category: "Career" },
-  { skill: "Do 50 pushups throughout the day", category: "Fitness" },
-  { skill: "Write a short email in Dutch", category: "Language" },
-  { skill: "Learn about a procurement framework", category: "Career" },
-  { skill: "Try journaling for 10 min (freewrite)", category: "Wellness" },
-  { skill: "Make a smoothie with 3+ ingredients", category: "Life" },
-  { skill: "Learn VS Code keyboard shortcuts", category: "Tech" },
-  { skill: "Do a 30-min bike ride around Amsterdam", category: "Fitness" },
-  { skill: "Research Reckitt Nutley office & team", category: "Career" },
-  { skill: "Write a LinkedIn post about your work", category: "Career" },
-  { skill: "Try yoga for beginners on YouTube", category: "Fitness" },
-  { skill: "Set up a personal website", category: "Tech" },
-  { skill: "Practice Scrabble strategy online", category: "Fun" },
-  { skill: "Study one AI/ML concept deeply", category: "Tech" },
-  { skill: "Write a thank-you note to someone", category: "Wellness" },
-  { skill: "Learn 5 stretches for desk workers", category: "Fitness" },
-  { skill: "Explore a free online course (1 lesson)", category: "Learning" },
-  { skill: "Learn about investing basics (index funds)", category: "Finance" },
-  { skill: "Learn Retool basics for 30 min", category: "Tech" },
-  { skill: "Network: message someone at Reckitt US", category: "Career" },
-  { skill: "Learn to make fresh pasta", category: "Life" },
-  { skill: "Study US work visa categories (L-1, H-1B)", category: "Career" },
-  { skill: "Create a PowerBI dashboard from scratch", category: "Tech" },
-  { skill: "Do a digital declutter (clean files)", category: "Productivity" },
-  { skill: "FaceTime someone you miss today", category: "Wellness" },
+var SKILL_IDEAS = [
+  {skill:"Cook a Dutch recipe from scratch",category:"Life"},
+  {skill:"Learn 10 Dutch phrases",category:"Language"},
+  {skill:"Set up a basic budget spreadsheet",category:"Finance"},
+  {skill:"Try a 10-min guided meditation",category:"Wellness"},
+  {skill:"Write a Python function from memory",category:"Tech"},
+  {skill:"Do a 20-min bodyweight HIIT routine",category:"Fitness"},
+  {skill:"Learn basic photo editing",category:"Creative"},
+  {skill:"Practice touch typing for 15 min",category:"Productivity"},
+  {skill:"Read 1 chapter of a non-fiction book",category:"Learning"},
+  {skill:"Learn to make a proper espresso",category:"Life"},
+  {skill:"Build a simple HTML page",category:"Tech"},
+  {skill:"Try indoor bouldering",category:"Fitness"},
+  {skill:"Learn 5 Excel shortcuts",category:"Productivity"},
+  {skill:"Draw something for 15 minutes",category:"Creative"},
+  {skill:"Research one US visa/transfer topic",category:"Career"},
+  {skill:"Cook a Hungarian dish from memory",category:"Life"},
+  {skill:"Learn basic SQL queries",category:"Tech"},
+  {skill:"Try a new Amsterdam neighborhood walk",category:"Wellness"},
+  {skill:"Practice public speaking (record yourself)",category:"Career"},
+  {skill:"Do 50 pushups throughout the day",category:"Fitness"},
+  {skill:"Write a short email in Dutch",category:"Language"},
+  {skill:"Learn about a procurement framework",category:"Career"},
+  {skill:"Try journaling for 10 min (freewrite)",category:"Wellness"},
+  {skill:"Make a smoothie with 3+ ingredients",category:"Life"},
+  {skill:"Learn VS Code keyboard shortcuts",category:"Tech"},
+  {skill:"Do a 30-min bike ride around Amsterdam",category:"Fitness"},
+  {skill:"Research Reckitt Nutley office and team",category:"Career"},
+  {skill:"Write a LinkedIn post about your work",category:"Career"},
+  {skill:"Try yoga for beginners on YouTube",category:"Fitness"},
+  {skill:"Set up a personal website",category:"Tech"},
+  {skill:"Practice Scrabble strategy online",category:"Fun"},
+  {skill:"Study one AI/ML concept deeply",category:"Tech"},
+  {skill:"Write a thank-you note to someone",category:"Wellness"},
+  {skill:"Learn 5 stretches for desk workers",category:"Fitness"},
+  {skill:"Explore a free online course (1 lesson)",category:"Learning"},
+  {skill:"Learn about investing basics (index funds)",category:"Finance"},
+  {skill:"Learn Retool basics for 30 min",category:"Tech"},
+  {skill:"Network: message someone at Reckitt US",category:"Career"},
+  {skill:"Learn to make fresh pasta",category:"Life"},
+  {skill:"Study US work visa categories (L-1, H-1B)",category:"Career"},
+  {skill:"Create a PowerBI dashboard from scratch",category:"Tech"},
+  {skill:"Do a digital declutter (clean files)",category:"Productivity"},
+  {skill:"FaceTime someone you miss today",category:"Wellness"}
 ];
 
-const NOTES = [
+var NOTES = [
   "One day at a time. You're building something real.",
   "The gap between where you are and where you want to be closes with every small choice.",
-  "Your girlfriend, your family — they'd be proud you're doing this.",
+  "Your girlfriend, your family \u2014 they'd be proud you're doing this.",
   "Amsterdam is temporary. Growth is permanent.",
   "The version of you that gets to Nutley starts with today's habits.",
   "Consistency beats intensity. Just show up.",
   "You moved countries alone. You can do anything.",
   "Every streak started at day one.",
   "Future you will thank today's you.",
-  "Small wins compound. Keep going.",
+  "Small wins compound. Keep going."
 ];
 
-const STORAGE_KEY = "life-tracker-v2";
-let data = {};
+var STORAGE_KEY = "life-tracker-v2";
+var data = {};
 
-function getToday() { return new Date().toISOString().split("T")[0]; }
-function getWeekId(dateStr) {
-  const d = new Date(dateStr + "T12:00:00");
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(d);
+function getToday(){return new Date().toISOString().split("T")[0]}
+
+function getWeekId(dateStr){
+  var d = new Date(dateStr+"T12:00:00");
+  var day = d.getDay();
+  var diff = d.getDate()-day+(day===0?-6:1);
+  var monday = new Date(d);
   monday.setDate(diff);
   return monday.toISOString().split("T")[0];
 }
 
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    data = raw ? JSON.parse(raw) : {};
-  } catch(e) { data = {}; }
-  if (!data.dailyChecks) data.dailyChecks = {};
-  if (!data.weeklyChecks) data.weeklyChecks = {};
-  if (!data.diary) data.diary = {};
-  if (!data.reflections) data.reflections = {};
-  if (!data.skills) data.skills = {};
-  if (!data.workoutCounts) data.workoutCounts = {};
+function loadData(){
+  try{var raw=localStorage.getItem(STORAGE_KEY);data=raw?JSON.parse(raw):{}}catch(e){data={}}
+  if(!data.dailyChecks)data.dailyChecks={};
+  if(!data.weeklyChecks)data.weeklyChecks={};
+  if(!data.diary)data.diary={};
+  if(!data.reflections)data.reflections={};
+  if(!data.skills)data.skills={};
+  if(!data.workoutCounts)data.workoutCounts={};
 }
 
-function saveData() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+function saveData(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){}
 }
 
-function getStreak(habitId) {
-  let streak = 0;
-  const d = new Date(getToday() + "T12:00:00");
-  while (true) {
-    const ds = d.toISOString().split("T")[0];
-    if (data.dailyChecks[ds + "_" + habitId]) { streak++; d.setDate(d.getDate() - 1); }
+function escapeHtml(str){
+  var div=document.createElement("div");
+  div.textContent=str;
+  return div.innerHTML;
+}
+
+function getStreak(habitId){
+  var streak=0;
+  var d=new Date(getToday()+"T12:00:00");
+  while(true){
+    var ds=d.toISOString().split("T")[0];
+    if(data.dailyChecks[ds+"_"+habitId]){streak++;d.setDate(d.getDate()-1)}
     else break;
   }
   return streak;
 }
 
-function getDailyScore() {
-  const today = getToday();
-  return HABITS.filter(h => data.dailyChecks[today + "_" + h.id]).length;
+function getDailyScore(){
+  var today=getToday();
+  return HABITS.filter(function(h){return data.dailyChecks[today+"_"+h.id]}).length;
 }
 
-function renderAll() {
-  const today = getToday();
-  const weekId = getWeekId(today);
-  const score = getDailyScore();
+function shuffleArray(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}
+  return a;
+}
 
-  // Date
-  document.getElementById("dateDisplay").textContent = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+function renderAll(){
+  var today=getToday();
+  var weekId=getWeekId(today);
+  var score=getDailyScore();
 
-  // Motivational
-  document.getElementById("motivationalText").textContent = '"' + NOTES[Math.floor(Math.random() * NOTES.length)] + '"';
+  document.getElementById("dateDisplay").textContent=new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
 
-  // Ring
-  const pct = (score / HABITS.length) * 188.5;
-  document.getElementById("progressRing").setAttribute("stroke-dasharray", pct + " 188.5");
-  document.getElementById("ringText").textContent = score + "/" + HABITS.length;
+  document.getElementById("motivationalText").textContent="\u201c"+NOTES[Math.floor(Math.random()*NOTES.length)]+"\u201d";
 
-  // Daily habits
-  const habitsEl = document.getElementById("dailyHabits");
-  habitsEl.innerHTML = "";
-  HABITS.forEach(h => {
-    const checked = !!data.dailyChecks[today + "_" + h.id];
-    const streak = getStreak(h.id);
-    const btn = document.createElement("button");
-    btn.className = "check-row" + (checked ? " checked" : "");
-    btn.innerHTML = `
-      <span class="check-circle">${checked ? "✓" : ""}</span>
-      <span class="check-label">${h.icon} ${h.label}</span>
-      ${streak > 0 ? `<span class="streak-badge">${streak}d 🔥</span>` : ""}
-    `;
-    btn.onclick = () => {
-      data.dailyChecks[today + "_" + h.id] = !checked;
+  var pct=(score/HABITS.length)*188.5;
+  document.getElementById("progressRing").setAttribute("stroke-dasharray",pct+" 188.5");
+  document.getElementById("ringText").textContent=score+"/"+HABITS.length;
+
+  var habitsEl=document.getElementById("dailyHabits");
+  habitsEl.innerHTML="";
+  HABITS.forEach(function(h){
+    var checked=!!data.dailyChecks[today+"_"+h.id];
+    var streak=getStreak(h.id);
+    var btn=document.createElement("button");
+    btn.className="check-row"+(checked?" checked":"");
+    btn.innerHTML='<span class="check-circle">'+(checked?"\u2713":"")+'</span><span class="check-label">'+h.icon+" "+h.label+"</span>"+(streak>0?'<span class="streak-badge">'+streak+"d \ud83d\udd25</span>":"");
+    btn.addEventListener("click",function(){
+      data.dailyChecks[today+"_"+h.id]=!checked;
       saveData();
       renderAll();
-    };
+    });
     habitsEl.appendChild(btn);
   });
 
-  // Diary
-  const diaryEl = document.getElementById("diarySection");
-  const todayDiary = data.diary[today];
-  if (todayDiary) {
-    diaryEl.innerHTML = `<div class="card"><p class="card-label">📝 Today's diary</p><p style="font-style:italic;line-height:1.5">"${escapeHtml(todayDiary)}"</p></div>`;
-  } else {
-    diaryEl.innerHTML = `
-      <div class="card">
-        <p class="card-label">📝 One sentence diary</p>
-        <div class="diary-row">
-          <input class="diary-input" id="diaryInput" placeholder="How was today?" />
-          <button class="btn-primary" id="saveDiaryBtn">Save</button>
-        </div>
-      </div>`;
-    setTimeout(() => {
-      const inp = document.getElementById("diaryInput");
-      const btn = document.getElementById("saveDiaryBtn");
-      if (btn) btn.onclick = () => {
-        if (inp.value.trim()) {
-          data.diary[today] = inp.value.trim();
-          saveData();
-          renderAll();
-        }
-      };
-      if (inp) inp.onkeydown = (e) => { if (e.key === "Enter") btn.click(); };
-    }, 0);
+  var diaryEl=document.getElementById("diarySection");
+  var todayDiary=data.diary[today];
+  if(todayDiary){
+    diaryEl.innerHTML='<div class="card"><p class="card-label">\ud83d\udcdd Today\'s diary</p><p style="font-style:italic;line-height:1.5">\u201c'+escapeHtml(todayDiary)+'\u201d</p></div>';
+  }else{
+    diaryEl.innerHTML='<div class="card"><p class="card-label">\ud83d\udcdd One sentence diary</p><div class="diary-row"><input class="diary-input" id="diaryInput" placeholder="How was today?" /><button class="btn-primary" id="saveDiaryBtn">Save</button></div></div>';
+    setTimeout(function(){
+      var inp=document.getElementById("diaryInput");
+      var btn=document.getElementById("saveDiaryBtn");
+      if(btn)btn.addEventListener("click",function(){
+        if(inp.value.trim()){data.diary[today]=inp.value.trim();saveData();renderAll()}
+      });
+      if(inp)inp.addEventListener("keydown",function(e){if(e.key==="Enter")btn.click()});
+    },0);
   }
 
-  // Workout
-  const wKey = weekId + "_workout";
-  const wCount = data.workoutCounts[wKey] || 0;
-  document.getElementById("workoutSection").innerHTML = `
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <span style="font-size:15px">💪 Workouts this week</span>
-        <span style="font-size:14px;color:${wCount >= 3 ? '#4ecdc4' : '#f4a261'};font-weight:700">${wCount}/4 target</span>
-      </div>
-      <div class="workout-counter">
-        <button class="workout-btn" id="wMinus">−</button>
-        <span class="workout-num">${wCount}</span>
-        <button class="workout-btn" id="wPlus">+</button>
-      </div>
-    </div>`;
-  setTimeout(() => {
-    document.getElementById("wMinus").onclick = () => { data.workoutCounts[wKey] = Math.max(0, (data.workoutCounts[wKey]||0) - 1); saveData(); renderAll(); };
-    document.getElementById("wPlus").onclick = () => { data.workoutCounts[wKey] = Math.min(7, (data.workoutCounts[wKey]||0) + 1); saveData(); renderAll(); };
-  }, 0);
+  var wKey=weekId+"_workout";
+  var wCount=data.workoutCounts[wKey]||0;
+  document.getElementById("workoutSection").innerHTML='<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><span style="font-size:15px">\ud83d\udcaa Workouts this week</span><span style="font-size:14px;color:'+(wCount>=3?"#4ecdc4":"#f4a261")+';font-weight:700">'+wCount+'/4 target</span></div><div class="workout-counter"><button class="workout-btn" id="wMinus">\u2212</button><span class="workout-num">'+wCount+'</span><button class="workout-btn" id="wPlus">+</button></div></div>';
+  setTimeout(function(){
+    document.getElementById("wMinus").addEventListener("click",function(){data.workoutCounts[wKey]=Math.max(0,(data.workoutCounts[wKey]||0)-1);saveData();renderAll()});
+    document.getElementById("wPlus").addEventListener("click",function(){data.workoutCounts[wKey]=Math.min(7,(data.workoutCounts[wKey]||0)+1);saveData();renderAll()});
+  },0);
 
-  // Skill
-  const weekSkill = data.skills[weekId];
-  const skillEl = document.getElementById("skillSection");
-  if (weekSkill) {
-    skillEl.innerHTML = `<div class="card"><p class="card-label">🎯 Skill of the week</p><p style="color:#4ecdc4;font-weight:600">✓ ${escapeHtml(weekSkill)}</p></div>`;
-  } else {
-    skillEl.innerHTML = `<div class="card"><p class="card-label">🎯 Skill of the week</p><button class="btn-outline" id="showSkillsBtn">Pick a skill to learn →</button><div id="skillList" style="display:none;margin-top:12px;max-height:300px;overflow-y:auto"></div></div>`;
-    setTimeout(() => {
-      const showBtn = document.getElementById("showSkillsBtn");
-      const listEl = document.getElementById("skillList");
-      if (showBtn) showBtn.onclick = () => {
-        showBtn.style.display = "none";
-        listEl.style.display = "block";
-        const used = new Set(Object.values(data.skills || {}));
-        const avail = SKILL_IDEAS.filter(s => !used.has(s.skill));
-        const shuffled = avail.sort(() => Math.random() - 0.5).slice(0, 5);
-        listEl.innerHTML = shuffled.map(s => `<button class="skill-option" data-skill="${escapeHtml(s.skill)}"><span class="skill-category">${s.category}</span><br>${escapeHtml(s.skill)}</button>`).join("");
-        listEl.querySelectorAll(".skill-option").forEach(b => {
-          b.onclick = () => { data.skills[weekId] = b.dataset.skill; saveData(); renderAll(); };
+  var weekSkill=data.skills[weekId];
+  var skillEl=document.getElementById("skillSection");
+  if(weekSkill){
+    skillEl.innerHTML='<div class="card"><p class="card-label">\ud83c\udfaf Skill of the week</p><p style="color:#4ecdc4;font-weight:600">\u2713 '+escapeHtml(weekSkill)+'</p></div>';
+  }else{
+    skillEl.innerHTML='<div class="card"><p class="card-label">\ud83c\udfaf Skill of the week</p><button class="btn-outline" id="showSkillsBtn">Pick a skill to learn \u2192</button><div id="skillList" style="display:none;margin-top:12px;max-height:300px;overflow-y:auto"></div></div>';
+    setTimeout(function(){
+      var showBtn=document.getElementById("showSkillsBtn");
+      var listEl=document.getElementById("skillList");
+      if(showBtn)showBtn.addEventListener("click",function(){
+        showBtn.style.display="none";
+        listEl.style.display="block";
+        var used={};
+        var sk=data.skills||{};
+        for(var k in sk)used[sk[k]]=true;
+        var avail=SKILL_IDEAS.filter(function(s){return!used[s.skill]});
+        var shuffled=shuffleArray(avail).slice(0,5);
+        listEl.innerHTML=shuffled.map(function(s){return'<button class="skill-option" data-skill="'+escapeHtml(s.skill)+'"><span class="skill-category">'+s.category+'</span><br>'+escapeHtml(s.skill)+'</button>'}).join("");
+        listEl.querySelectorAll(".skill-option").forEach(function(b){
+          b.addEventListener("click",function(){data.skills[weekId]=b.getAttribute("data-skill");saveData();renderAll()});
         });
-      };
-    }, 0);
+      });
+    },0);
   }
 
-  // Goals check
-  const goalsChecked = !!data.weeklyChecks[weekId + "_goals"];
-  document.getElementById("goalsCheck").innerHTML = "";
-  const goalsBtn = document.createElement("button");
-  goalsBtn.className = "check-row" + (goalsChecked ? " checked" : "");
-  goalsBtn.innerHTML = `<span class="check-circle">${goalsChecked ? "✓" : ""}</span><span class="check-label">📋 Sunday goal-setting & reflection</span>`;
-  goalsBtn.onclick = () => { data.weeklyChecks[weekId + "_goals"] = !goalsChecked; saveData(); renderAll(); };
-  document.getElementById("goalsCheck").appendChild(goalsBtn);
+  var goalsChecked=!!data.weeklyChecks[weekId+"_goals"];
+  var goalsEl=document.getElementById("goalsCheck");
+  goalsEl.innerHTML="";
+  var goalsBtn=document.createElement("button");
+  goalsBtn.className="check-row"+(goalsChecked?" checked":"");
+  goalsBtn.innerHTML='<span class="check-circle">'+(goalsChecked?"\u2713":"")+'</span><span class="check-label">\ud83d\udccb Sunday goal-setting & reflection</span>';
+  goalsBtn.addEventListener("click",function(){data.weeklyChecks[weekId+"_goals"]=!goalsChecked;saveData();renderAll()});
+  goalsEl.appendChild(goalsBtn);
 
-  // Reflection
-  const weekReflection = data.reflections[weekId];
-  const refEl = document.getElementById("reflectionSection");
-  if (weekReflection) {
-    refEl.innerHTML = `<div class="card" style="margin-top:8px"><p class="card-label">📋 Weekly reflection</p><p style="font-style:italic;line-height:1.6">"${escapeHtml(weekReflection)}"</p></div>`;
-  } else {
-    refEl.innerHTML = `
-      <div class="card" style="margin-top:8px">
-        <p class="card-label">📋 Weekly reflection</p>
-        <textarea class="reflection-input" id="reflectionInput" rows="3" placeholder="What went well? What to improve? Goals for next week..."></textarea>
+  var weekReflection=data.reflections[weekId];
+  var refEl=document.getElementById("reflectionSection");
+  if(weekReflection){
+    refEl.innerHTML='<div class="card" style="margin-top:8px"><p class="card-label">\ud83d\udccb Weekly reflection</p><p style="font-style:italic;line-height:1.6">\u201c'+escapeHtml(weekReflection)+'\u201d</p></div>';
+  }else{
+    refEl.innerHTML='<div class="card" style="margin-top:8px"><p class="card-label">\ud83d\udccb Weekly reflection</p><textarea class="reflection-input" id="reflectionInput" rows="3" placeholder="What went well? What to improve? Goals for next week..."></textarea><button class="btn-primary" style="margin-top:8px" id="saveRefBtn">Save reflection</button></div>';
+    setTimeout(function(){
+      var btn=document.getElementById("saveRefBtn");
+      var inp=document.getElementById("reflectionInput");
+      if(btn)btn.addEventListener("click",function(){
+        if(inp.value.trim()){data.reflections[weekId]=inp.value.trim();saveData();renderAll()}
+      });
+    },0);
+  }
 
-```
-    <button class="btn-primary" style="margin-top:8px" id="saveRefBtn">Save reflection</button>
-  </div>`;
-setTimeout(() => {
-  const btn = document.getElementById("saveRefBtn");
-  const inp = document.getElementById("reflectionInput");
-  if (btn) btn.onclick = () => {
-    if (inp.value.trim()) { data.reflections[weekId] = inp.value.trim(); saveData(); renderAll(); }
-  };
-}, 0);
-```
-
+  var journalEl=document.getElementById("journalEntries");
+  var diaryEntries=Object.entries(data.diary||{}).sort(function(a,b){return b[0].localeCompare(a[0])}).slice(0,14);
+  var refEntries=Object.entries(data.reflections||{}).sort(function(a,b){return b[0].localeCompare(a[0])}).slice(0,8);
+  if(diaryEntries.length===0&&refEntries.length===0){
+    journalEl.innerHTML='<div class="card empty-state">No entries yet. Start with one sentence today.</div>';
+  }else{
+    var html="";
+    diaryEntries.forEach(function(entry){
+      var date=entry[0],text=entry[1];
+      var d=new Date(date+"T12:00:00");
+      html+='<div class="card journal-entry"><p class="journal-date">\ud83d\udcdd '+d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+'</p><p class="journal-text">'+escapeHtml(text)+'</p></div>';
+    });
+    refEntries.forEach(function(entry){
+      var week=entry[0],text=entry[1];
+      var d=new Date(week+"T12:00:00");
+      html+='<div class="card journal-entry journal-reflection"><p class="journal-date">\ud83d\udccb Week of '+d.toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</p><p class="journal-text">'+escapeHtml(text)+'</p></div>';
+    });
+    journalEl.innerHTML=html;
+  }
 }
 
-// Journal
-const journalEl = document.getElementById(“journalEntries”);
-const diaryEntries = Object.entries(data.diary || {}).sort((a,b) => b[0].localeCompare(a[0])).slice(0, 14);
-const refEntries = Object.entries(data.reflections || {}).sort((a,b) => b[0].localeCompare(a[0])).slice(0, 8);
-if (diaryEntries.length === 0 && refEntries.length === 0) {
-journalEl.innerHTML = `<div class="card empty-state">No entries yet. Start with one sentence today.</div>`;
-} else {
-let html = “”;
-diaryEntries.forEach(([date, text]) => {
-const d = new Date(date + “T12:00:00”);
-html += `<div class="card journal-entry"><p class="journal-date">📝 ${d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</p><p class="journal-text">${escapeHtml(text)}</p></div>`;
-});
-refEntries.forEach(([week, text]) => {
-const d = new Date(week + “T12:00:00”);
-html += `<div class="card journal-entry journal-reflection"><p class="journal-date">📋 Week of ${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</p><p class="journal-text">${escapeHtml(text)}</p></div>`;
-});
-journalEl.innerHTML = html;
-}
-}
-
-function escapeHtml(str) {
-const div = document.createElement(“div”);
-div.textContent = str;
-return div.innerHTML;
-}
-
-// Tabs
-document.querySelectorAll(”.tab-btn”).forEach(btn => {
-btn.onclick = () => {
-document.querySelectorAll(”.tab-btn”).forEach(b => b.classList.remove(“active”));
-document.querySelectorAll(”.tab-content”).forEach(c => c.classList.remove(“active”));
-btn.classList.add(“active”);
-document.getElementById(“tab-” + btn.dataset.tab).classList.add(“active”);
-};
+document.querySelectorAll(".tab-btn").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active")});
+    document.querySelectorAll(".tab-content").forEach(function(c){c.classList.remove("active")});
+    btn.classList.add("active");
+    document.getElementById("tab-"+btn.getAttribute("data-tab")).classList.add("active");
+  });
 });
 
-// PWA install
-let deferredPrompt;
-window.addEventListener(“beforeinstallprompt”, (e) => {
-e.preventDefault();
-deferredPrompt = e;
-document.getElementById(“installBanner”).classList.add(“show”);
+var deferredPrompt;
+window.addEventListener("beforeinstallprompt",function(e){
+  e.preventDefault();
+  deferredPrompt=e;
+  document.getElementById("installBanner").classList.add("show");
 });
-document.getElementById(“installBtn”).onclick = async () => {
-if (deferredPrompt) {
-deferredPrompt.prompt();
-await deferredPrompt.userChoice;
-deferredPrompt = null;
-document.getElementById(“installBanner”).classList.remove(“show”);
-}
-};
-document.getElementById(“dismissInstall”).onclick = () => {
-document.getElementById(“installBanner”).classList.remove(“show”);
-};
+document.getElementById("installBtn").addEventListener("click",function(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){
+      deferredPrompt=null;
+      document.getElementById("installBanner").classList.remove("show");
+    });
+  }
+});
+document.getElementById("dismissInstall").addEventListener("click",function(){
+  document.getElementById("installBanner").classList.remove("show");
+});
 
-// iOS detection - show manual install tip
-if (navigator.standalone === false || (navigator.userAgent.match(/iPhone|iPad/) && !window.navigator.standalone)) {
-const banner = document.getElementById(“installBanner”);
-banner.classList.add(“show”);
-document.getElementById(“installBtn”).textContent = “Got it”;
-banner.querySelector(“p”).textContent = “Tap Share ⬆ then ‘Add to Home Screen’”;
-document.getElementById(“installBtn”).onclick = () => banner.classList.remove(“show”);
+if(navigator.standalone===false||(navigator.userAgent.match(/iPhone|iPad/)&&!window.navigator.standalone)){
+  var banner=document.getElementById("installBanner");
+  banner.classList.add("show");
+  document.getElementById("installBtn").textContent="Got it";
+  banner.querySelector("p").textContent="Tap Share \u2b06 then 'Add to Home Screen'";
+  document.getElementById("installBtn").onclick=function(){banner.classList.remove("show")};
 }
 
-// Init
 loadData();
 renderAll();
-</script>
 
+})();
+</script>
 </body>
 </html>
